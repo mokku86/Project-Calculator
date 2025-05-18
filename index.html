@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" type="text/javascript" defer></script>
+    <title>Project: Calculator</title>
+</head>
+<body>
+    <div id="calculator">
+        <div class="screen">
+            <div class="sub">
+                <span class="e1"></span>
+                <span class="op"></span>
+                <span class="e2"></span>
+                <span class="eq"></span>
+            </div>
+            <div class="main">
+                <span class="input"></span>
+                <span class="result"></span>
+            </div>
+        </div>
+        <div id="buttons">
+            <div class="row">
+                <button type="button" id="btn-clearEntry">CE</button>
+                <button type="button" id="btn-clear">C</button>
+                <button type="button" id="btn-backspace"><img src="assets/backspace.svg" alt="Backspace"></button>
+                <button type="button" class="btn-operator" data-symbol="÷" data-operator="divide">÷</button>
+            </div>
+            <div class="row">
+                <button type="button" class="numb" data-value="7">7</button>
+                <button type="button" class="numb" data-value="8">8</button>
+                <button type="button" class="numb" data-value="9">9</button>
+                <button type="button" class="btn-operator" data-symbol="×" data-operator="multiply">×</button>
+            </div>
+            <div class="row">
+                <button type="button" class="numb" data-value="4">4</button>
+                <button type="button" class="numb" data-value="5">5</button>
+                <button type="button" class="numb" data-value="6">6</button>
+                <button type="button" class="btn-operator" data-symbol="+" data-operator="add">+</button>
+            </div>
+            <div class="row">
+                <button type="button" class="numb" data-value="1">1</button>
+                <button type="button" class="numb" data-value="2">2</button>
+                <button type="button" class="numb" data-value="3">3</button>
+                <button type="button"class="btn-operator" data-symbol="−" data-operator="subtract">−</button>
+            </div>
+            <div class="row">
+                <button type="button" id="btn-decimal">.</button>
+                <button type="button" class="numb" data-value="0">0</button>
+                <button type="button" id="btn-equal" data-symbol="=">=</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
