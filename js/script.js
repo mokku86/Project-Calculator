@@ -22,6 +22,7 @@ const clearE = d.querySelector('#btn-clearEntry');
 const clear = d.querySelector('#btn-clear');
 const backspace = d.querySelector('#btn-backspace');
 const decimal = d.querySelector('#btn-decimal');
+const body = d.querySelector('body');
 
 function add () {
     let result = (entry1 + entry2).toFixed(2);
@@ -40,6 +41,34 @@ function divide () {
     let result = (entry1 / entry2).toFixed(2);
     return (result * 10) / 10;
 }
+function onNumb (value) {
+    if(input.textContent.length > 11) return;
+    if(result.textContent) clearAll();
+
+    insertNumb(value);
+}
+function insertNumb (value) {
+    //special treatment for zero
+    if(value == "0") {
+        console.log('zero clicked');
+        //if input in empty or with decimal, add 0
+        if(input.textContent == '') {
+            return input.textContent += '0';
+        }
+
+        if(hasDecimal(Number(input.textContent))){
+            console.log('input has decimal');
+            return input.textContent += '0';
+        }
+
+        //if input already have 0, do nothing
+        if(Number(input.textContent) == 0) {
+            return;
+        }
+    }
+    input.textContent += value;
+}
+
 function clearEntry () {
     input.textContent = '';
 }
@@ -50,39 +79,41 @@ function clearAll() {
 function backspaceFn () {
     input.textContent = input.textContent.slice(0, -1);
 }
-function chainOperator (e) {
-    console.log('chain operator');
+function chainOperator (obj) {
     entry2 = e2.textContent = Number(input.textContent);
     input.textContent = ''
     entry1 = e1.textContent = operation[operator]();
-    operator = e.target.dataset.operator;
+    operator = obj.name;
     entry2 = e2.textContent = null;
-    op.textContent = e.target.dataset.symbol;
+    op.textContent = obj.symbol;
 }
-function operatorWithResult (e) {
+function operatorWithResult (obj) {
+    //turn prev result to entry1
     entry1 = e1.textContent = Number(result.textContent);
 
     result.textContent = '';
-    operator = e.target.dataset.operator;
-    op.textContent = e.target.dataset.symbol;
+    operator = obj.name;
+    op.textContent = obj.symbol;
     entry2 = null;
     e2.textContent = eq.textContent = '';
 }
-function onOperator(e) {
+function onOperator(obj) {
     //with result
-    if(result.textContent) return operatorWithResult(e);
+    if(result.textContent) return operatorWithResult(obj);
 
     //nothing happen if entry1 is null
-    if(!input.textContent) return console.log('nothing happen');
+    if(!input.textContent) return;
 
     //if operator and input are not empty
     //calculate the result and assign it to entry1 and update new operator
-    if(operator && input.textContent) return chainOperator(e);
-
-    console.log('first time');
+    if(operator && input.textContent) return chainOperator(obj);  
+    
+    insertOperator(obj);
+}
+function insertOperator (obj) {
     entry1 = e1.textContent = Number(input.textContent);
-    operator = e.target.dataset.operator;
-    op.textContent = e.target.dataset.symbol;
+    operator = obj.name;
+    op.textContent = obj.symbol;
     input.textContent = '';
 }
 
@@ -119,7 +150,13 @@ function onDecimal () {
 
 
 operators.forEach(btn => {
-    btn.addEventListener('click', onOperator);
+    btn.addEventListener('click', e => {
+        const obj = {
+            name : e.dataset.operator,
+            symbol : e.dataset.symbol,
+        }
+        onOperator(obj)
+    });
 });
 
 btnEqual.addEventListener('click', equal);
@@ -130,30 +167,8 @@ btnEqual.addEventListener('click', equal);
 //
 numbs.forEach(numb => {
     numb.addEventListener('click', e => {
-        if(result.textContent) clearAll();
-        if(input.textContent.length > 11) return;
-
-        //special treatment for zero
-        if(numb.dataset.value == "0") {
-            console.log('zero clicked');
-            //if input in empty, add 0 or with decimal
-            if(input.textContent == '') {
-                return input.textContent += '0';
-            }
-
-            if(hasDecimal(Number(input.textContent))){
-                console.log('input has decimal');
-                return input.textContent += '0';
-            }
-
-            //if input already have 0, do nothing
-            if(Number(input.textContent) == 0) {
-                return;
-            }
-        }
-
-        const value = e.target.dataset.value;
-        input.textContent += value;
+        const value = e.dataset.value;
+        onNumb(value);
     });
 });
 
@@ -161,3 +176,39 @@ clear.addEventListener('click', clearAll);
 clearE.addEventListener('click', clearEntry);
 backspace.addEventListener('click', backspaceFn);
 decimal.addEventListener('click', onDecimal);
+
+const allowedKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/'];
+body.addEventListener('keyup', (e) => {
+    const key = e.key.toLowerCase();
+    console.log(key);
+    
+    if(key === 'enter' || key === '='){
+        equal();
+    }else if(allowedKey.includes(key)){
+        if(/^[0-9]$/.test(key)){
+            return onNumb(key); 
+        }
+        const obj = {
+            name : '',
+            symbol : '',
+        }
+        if(key == '+'){
+            obj.name = 'add';
+            obj.symbol = '+';
+            onOperator(obj)
+        }else if(key == '-'){
+            obj.name = 'subtract';
+            obj.symbol = '-';
+            onOperator(obj)
+        }else if(key == '*'){
+            obj.name = 'multiply';
+            obj.symbol = '*';
+            onOperator(obj)
+        }else{
+            obj.name = 'divide';
+            obj.symbol = '/';
+            onOperator(obj)
+        }
+    }
+    
+});

@@ -36,10 +36,21 @@ body{
 }
 .main{
     color: #333;
+    display: flex;
     font-size: 260%;
     height: 30px;
+    justify-content: end;
     line-height: 30px;
     text-align: right;
+}
+.input{
+    flex: 1;
+}
+.input:empty:before{
+    content: attr(data-placeholder);
+}
+.result{
+    flex: 0 0 0;
 }
 #buttons{
     display: flex;
