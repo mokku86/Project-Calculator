@@ -167,7 +167,7 @@ btnEqual.addEventListener('click', equal);
 //
 numbs.forEach(numb => {
     numb.addEventListener('click', e => {
-        const value = e.dataset.value;
+        const value = e.target.dataset.value;
         onNumb(value);
     });
 });
@@ -177,19 +177,23 @@ clearE.addEventListener('click', clearEntry);
 backspace.addEventListener('click', backspaceFn);
 decimal.addEventListener('click', onDecimal);
 
-const allowedKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', 'Enter', 'Backspace'];
+const allowedKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', 'Enter', 'backspace'];
 body.addEventListener('keyup', (e) => {
     const key = e.key.toLowerCase();
-    console.log(key);
+    //console.log(key);
     
     if(allowedKey.includes(key)){
+        console.log(key);
         if(key === 'enter' || key === '=') equal();
-        if(key === 'backspace') backspaceFn();
+        if(key === 'backspace') {
+            console.log('backspace pressed');
+            return backspaceFn();
+        }
 
         if(/^[0-9]$/.test(key)){
             return onNumb(key); 
         }
-        
+
         const obj = {
             name : '',
             symbol : '',

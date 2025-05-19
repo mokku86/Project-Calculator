@@ -18,6 +18,7 @@ body{
     flex-direction: column;
     gap: 20px;
     padding: 20px;
+    width: 264px;
 }
 .screen{
     background-color: #ccc;
@@ -62,26 +63,37 @@ body{
     gap: 8px;
 }
 .row button{
+    background-color: #efefef;
     border-radius: 8px;
     border: 1px solid #999;
-    color: #777;
-    filter: drop-shadow(3px 3px 0 #ccc);
+    box-shadow: 3px 3px 0 rgba(204, 204, 204, 1);
+    color: #666;
     flex: 0 0 60px;
     font-size: 20px;
     height: 40px;
 }
+.row button:active{
+    background-color: #ddd;
+    box-shadow:none;
+}
+.row button.btn-operator,
 #btn-equal{
-    flex-grow: 4;
+    background:#EB8934;
+    /* border-color: rgba(0,0,0,.1); */
+    border-color: #EB8934;
+    color: #000;
+    box-shadow: 3px 3px 0 rgba(204, 110, 29, 1);
+}
+.row button.btn-operator:active,
+#btn-equal:active{
+    background: #CC6E1D;
+    box-shadow: none;
+}
+#btn-equal{
+    flex-grow: 1;
 }
 button img{
     width: 20px;
-}
-.row .btn-operator,
-#btn-equal{
-    border: 0;
-    background:#EB8934;
-    color: #000;
-    filter: drop-shadow(3px 3px 0 #CC6E1D);
 }
 
 
