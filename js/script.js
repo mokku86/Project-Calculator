@@ -177,17 +177,19 @@ clearE.addEventListener('click', clearEntry);
 backspace.addEventListener('click', backspaceFn);
 decimal.addEventListener('click', onDecimal);
 
-const allowedKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/'];
+const allowedKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', 'Enter', 'Backspace'];
 body.addEventListener('keyup', (e) => {
     const key = e.key.toLowerCase();
     console.log(key);
     
-    if(key === 'enter' || key === '='){
-        equal();
-    }else if(allowedKey.includes(key)){
+    if(allowedKey.includes(key)){
+        if(key === 'enter' || key === '=') equal();
+        if(key === 'backspace') backspaceFn();
+
         if(/^[0-9]$/.test(key)){
             return onNumb(key); 
         }
+        
         const obj = {
             name : '',
             symbol : '',
