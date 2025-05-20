@@ -184,13 +184,10 @@ body.addEventListener('keyup', (e) => {
     
     if(allowedKey.includes(key)){
         console.log(key);
-        if(key === 'enter' || key === '=') equal();
-        if(key === 'backspace') {
-            console.log('backspace pressed');
-            return backspaceFn();
-        }
+        if(key === 'enter' || key === '=') return equal();
+        if(key === 'backspace') return backspaceFn();
 
-        if(/^[0-9]$/.test(key)){
+        if(Number.isInteger(Number(key))){
             return onNumb(key); 
         }
 
